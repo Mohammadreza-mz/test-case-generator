@@ -1,13 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 const int M=1010;
+typedef long long ll;
 int a[M];
+
+random_device rd;
+mt19937 g(rd());
+int rand_range(int l, int r){
+	uniform_int_distribution<int> dis(l, r);
+	return dis(g);
+}
+int rand_range(ll l, ll r){
+	uniform_int_distribution<ll> dis(l, r);
+	return dis(g);
+}
+
 
 //test for sample problem: sorting an array
 void generate_test(ofstream &fin, ofstream &fout){
-	int n= rand()%1000;
+	int n= rand_range(1,1000);
 	for(int i=0;i<n;i++)
-		a[i]= rand()%5000;
+		a[i]= rand_range(1,5000);
 	
 	fin<<n<<"\n";
 	for(int i=0;i<n;i++){
