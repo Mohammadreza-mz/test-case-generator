@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <dir.h>
 using namespace std;
 const int M=1010;
 typedef long long ll;
@@ -67,6 +68,12 @@ void generate_test(ofstream &fin, ofstream &fout){
 	}
 }
 
+void create_dir(){
+	mkdir("testcases");
+	mkdir("testcases/in");
+	mkdir("testcases/out");
+}
+
 void write_test(int testnum){
 	string num= to_string(testnum), in,out;
 	
@@ -83,6 +90,7 @@ void write_test(int testnum){
 int main(){
 	srand(time(0));
 	
+	create_dir();
 	int testnum= 0;
 	while(testnum<50){
 		testnum++;
