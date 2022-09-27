@@ -13,7 +13,7 @@ int rand_range(int l, int r){
 	uniform_int_distribution<int> dis(l, r);
 	return dis(rng);
 }
-int rand_range(ll l, ll r){
+ll rand_range(ll l, ll r){
 	uniform_int_distribution<ll> dis(l, r);
 	return dis(rng);
 }
@@ -50,6 +50,31 @@ vector<vector<ll>> rand_mat(pii n_range, pii m_range, pii x){
 	
 	return v;
 }
+
+
+//unweighted graph
+struct Graph{
+	int n;
+	vector<pii> edges;
+
+	void print(ofstream &output, bool convert_to_bidirectional = false, bool do_shuffle = true){
+		vector<pii> ans(edges.begin(), edges.end());
+		if(convert_to_bidirectional){
+			for(pii u: edges)
+				ans.push_back({u.second, u.first});
+		}
+
+		if(do_shuffle)
+			shuffle(ans.begin(), ans.end(), rng);
+		
+		output<<n<<" "<<ans.size();
+		for(pii u:ans)
+			output<<"\n"<<u.first<<" "<<u.second;
+		if(ans.size() == 0)
+			output<<"\n";
+	}
+};
+
 
 //test for sample problem: sorting an array
 void generate_test(ofstream &fin, ofstream &fout){
