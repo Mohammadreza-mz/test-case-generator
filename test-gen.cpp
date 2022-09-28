@@ -8,7 +8,7 @@ typedef pair<ll,ll> pii;
 int a[M];
 
 random_device rd;
-mt19937 rng(rd());
+mt19937_64 rng(rd());
 int rand_range(int l, int r){
 	uniform_int_distribution<int> dis(l, r);
 	return dis(rng);
@@ -51,28 +51,42 @@ vector<vector<ll>> rand_mat(pii n_range, pii m_range, pii x){
 	return v;
 }
 
+struct Edge{
+	int from, to;
+	ll w;
+};
 
-//unweighted graph
 struct Graph{
 	int n;
-	vector<pii> edges;
+	vector<Edge> edges;
 
-	void print(ofstream &output, bool convert_to_bidirectional = false, bool do_shuffle = true){
-		vector<pii> ans(edges.begin(), edges.end());
-		if(convert_to_bidirectional){
-			for(pii u: edges)
-				ans.push_back({u.second, u.first});
-		}
-
+	void print(ofstream &output, bool do_shuffle = true, bool weighted = false){
+		vector<Edge> ans(edges.begin(), edges.end());
 		if(do_shuffle)
 			shuffle(ans.begin(), ans.end(), rng);
 		
 		output<<n<<" "<<ans.size();
-		for(pii u:ans)
-			output<<"\n"<<u.first<<" "<<u.second;
+		for(Edge u:ans){
+			output<<"\n"<<u.from<<" "<<u.to;
+			if(weighted)
+				output<<" "<<u.w;
+		}
 		if(ans.size() == 0)
 			output<<"\n";
 	}
+
+	bool add_edge(int v, int u, int w=0, bool bidirectional = false){
+		if(v < 1 || v > n || u < 1 || u > n)
+			return false;
+		
+		edges.push_back({v, u, w});
+		if(bidirectional)
+			edges.push_back({u, v, w});
+		
+		return true;
+	}
+
+	//TODO: add_edge if unique	
 };
 
 
