@@ -3,6 +3,7 @@
 using namespace std;
 const int M=1010;
 typedef long long ll;
+typedef long double ld;
 typedef pair<ll,ll> pii;
 
 int a[M];
@@ -15,6 +16,10 @@ int rand_range(int l, int r){
 }
 ll rand_range(ll l, ll r){
 	uniform_int_distribution<ll> dis(l, r);
+	return dis(rng);
+}
+ld rand_range(ld l, ld r){
+	uniform_real_distribution<ld> dis(l,r);
 	return dis(rng);
 }
 
@@ -89,6 +94,20 @@ struct Graph{
 	//TODO: add_edge if unique	
 };
 
+//random directed acyclic graph, each edge will be in the graph with probability of p
+Graph rand_dag(int n, ld p){
+	Graph g;
+	g.n= n;
+	auto topo = rand_permutation({n,n});
+
+	for(int i=0; i<n; i++){
+		for(int j=i+1; j<n; j++){
+			if(rand_range((ld)0.0, (ld)1.0) <= p)
+				g.add_edge(topo[i]-1, topo[j]-1);
+		}
+	}
+	return g;
+}
 
 //test for sample problem: sorting an array
 void generate_test(ofstream &fin, ofstream &fout){
