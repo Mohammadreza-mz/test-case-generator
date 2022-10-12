@@ -14,13 +14,32 @@ int rand_range(int l, int r){
 	uniform_int_distribution<int> dis(l, r);
 	return dis(rng);
 }
+
 ll rand_range(ll l, ll r){
 	uniform_int_distribution<ll> dis(l, r);
 	return dis(rng);
 }
+
 ld rand_range(ld l, ld r){
 	uniform_real_distribution<ld> dis(l,r);
 	return dis(rng);
+}
+
+string rand_str(pii size_range, string alphabet= ""){
+	int size= rand_range(size_range.first, size_range.second);
+	if(alphabet == ""){
+		for(int i=0;i<26;i++)
+			alphabet += (char)('a'+i);
+		for(int i=0;i<26;i++)
+			alphabet += (char)('A'+i);
+		for(int i=0;i<10;i++)
+			alphabet += (char)('0'+i);
+	}
+
+	string ret = "";
+	for(int i=0;i<size;i++)
+		ret += alphabet[rand_range(0, alphabet.size())];
+	return ret;
 }
 
 //n_range is range for n, and x_range is range for a[i]
