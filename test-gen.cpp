@@ -83,13 +83,19 @@ struct Edge{
 struct Graph{
 	int n;
 	vector<Edge> edges;
-
-	void print(ofstream &output, bool do_shuffle = true, bool weighted = false){
+	vector<ll> labels; //label for each vertex
+	void print(ofstream &output, bool do_shuffle = true, bool weighted = false, bool print_labels = false){
 		vector<Edge> ans(edges.begin(), edges.end());
 		if(do_shuffle)
 			shuffle(ans.begin(), ans.end(), rng);
 		
 		output<<n<<" "<<ans.size();
+		if(print_labels){
+			output<<"\n";
+			for(ll u:labels)
+				output<<u<<" ";
+		}
+
 		for(Edge u:ans){
 			output<<"\n"<<u.from<<" "<<u.to;
 			if(weighted)
@@ -124,6 +130,24 @@ Graph rand_dag(int n, ld p){
 			if(rand_range((ld)0.0, (ld)1.0) <= p)
 				g.add_edge(topo[i]-1, topo[j]-1);
 		}
+	}
+	return g;
+}
+
+//full binary tree with the specified height and labels
+Graph create_full_binary_tree(int height, vector<ll> labels){
+	Graph g;
+	g.n= (1<<(height+1))-1;
+	if(g.n != labels.size()){
+		g.n=0;
+		return g;
+	}
+	g.labels = labels;
+	sort(labels.begin(), labels.end());
+
+	for(int i=1;i<(1<<height);i++){
+		g.add_edge(i,2*i);
+		g.add_edge(i,2*i+1);
 	}
 	return g;
 }
