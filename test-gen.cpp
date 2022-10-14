@@ -152,6 +152,26 @@ Graph create_full_binary_tree(int height, vector<ll> labels){
 	return g;
 }
 
+//random tree, parent of node i can be each of 1...(i-1) with equal probability
+//it may have some properties based on creating random trees, for example, its height be less than expected
+//TODO: shuffle vertices
+Graph rand_tree(int n, bool swap_rand = false){
+	Graph g;
+	g.n = n;
+	for(int i=2;i<=n;i++){
+		int par = rand_range(1,i-1);
+		if(!swap_rand)
+			g.add_edge(par, i);
+		else{
+			if(rand_range(0,1)==0)
+				g.add_edge(par, i);
+			else
+				g.add_edge(i,par);
+		}
+	}
+	return g;
+}
+
 //test for sample problem: sorting an array
 void generate_test(ofstream &fin, ofstream &fout){
 	int n= rand_range(1,1000);
