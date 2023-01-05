@@ -61,13 +61,25 @@ vector<ll> rand_permutation(pii n_range){
 }
 
 //random 2d-array
-vector<vector<ll>> rand_mat(pii n_range, pii m_range, pii x){
+vector<vector<ll>> rand_mat(pii n_range, pii m_range, pii x, bool symmetric=false){
 	ll n= rand_range(n_range.first, n_range.second);
-	ll m= rand_range(m_range.first, m_range.second);
+	vector<vector<ll>> v(n);
 
-	vector<vector<ll>> v(m);
+	if(symmetric){
+		if(n_range != m_range)
+			return v;
+		for(int i=0;i<n;i++){
+			v[i]= vector<ll>(n);
+			for(int j=i;j<n;j++)
+				v[i][j]= v[j][i]= rand_range(x.first, x.second);
+		}
+
+		return v;
+	}
+	
+	ll m= rand_range(m_range.first, m_range.second);
 	for(int i=0;i<n;i++){
-		v[i]= vector<ll>(n);
+		v[i]= vector<ll>(m);
 		for(int j=0;j<m;j++)
 			v[i][j]= rand_range(x.first, x.second);
 	}
