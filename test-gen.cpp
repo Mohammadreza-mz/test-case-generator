@@ -60,32 +60,43 @@ vector<ll> rand_permutation(pii n_range){
 	return v;
 }
 
-//random 2d-array
-vector<vector<ll>> rand_mat(pii n_range, pii m_range, pii x, bool symmetric=false){
-	ll n= rand_range(n_range.first, n_range.second);
-	vector<vector<ll>> v(n);
+struct Matrix{
+	int n,m;
+	vector<vector<ll>> v;
+	//random 2d-array
+	void rand_mat(pii n_range, pii m_range, pii x, bool symmetric=false){
+		n= rand_range(n_range.first, n_range.second);
+		vector<vector<ll>> v(n);
 
-	if(symmetric){
-		if(n_range != m_range)
-			return v;
-		for(int i=0;i<n;i++){
-			v[i]= vector<ll>(n);
-			for(int j=i;j<n;j++)
-				v[i][j]= v[j][i]= rand_range(x.first, x.second);
+		if(symmetric){
+			if(n_range != m_range)
+				return v;
+			m=n;
+			for(int i=0;i<n;i++)
+				v[i]= vector<ll>(m);
+			
+			for(int i=0;i<n;i++){
+				for(int j=i;j<m;j++)
+					v[i][j]= v[j][i]= rand_range(x.first, x.second);
+			}
+			return;
 		}
+		
+		m= rand_range(m_range.first, m_range.second);
+		for(int i=0;i<n;i++){
+			v[i]= vector<ll>(m);
+			for(int j=0;j<m;j++)
+				v[i][j]= rand_range(x.first, x.second);
+		}
+	}
 
-		return v;
+	void print(ofstream fout){
+		for(int i=0;i<n;i++)
+			for(int j=0;j<n;j++)
+				fout<<mat[i][j]<<" \n"[j==(n-1)];
 	}
-	
-	ll m= rand_range(m_range.first, m_range.second);
-	for(int i=0;i<n;i++){
-		v[i]= vector<ll>(m);
-		for(int j=0;j<m;j++)
-			v[i][j]= rand_range(x.first, x.second);
-	}
-	
-	return v;
-}
+};
+
 
 struct Edge{
 	int from, to;
@@ -225,7 +236,7 @@ int main(){
 	
 	create_dir();
 	int testnum= 0;
-	while(testnum<50){
+	while(testnum<100){
 		testnum++;
 		write_test(testnum);
 		cout<<"done generating test "<<testnum<<endl;
